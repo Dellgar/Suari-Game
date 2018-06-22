@@ -20,8 +20,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4785871892750458}
   - component: {fileID: 20825552127517436}
-  - component: {fileID: 124445468205703478}
   - component: {fileID: 81543399482839744}
+  - component: {fileID: 114896104212670958}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -35,13 +35,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1948521208355230}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalRotation: {x: -0.018863963, y: 0.9725809, z: -0.21561599, w: -0.08508985}
+  m_LocalPosition: {x: 3, y: 13, z: 16}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 25, y: 190, z: 0}
 --- !u!20 &20825552127517436
 Camera:
   m_ObjectHideFlags: 1
@@ -51,7 +51,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.48584908, g: 1, b: 0.89616853, a: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -75,7 +75,7 @@ Camera:
   m_AllowMSAA: 1
   m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
-  m_OcclusionCulling: 1
+  m_OcclusionCulling: 0
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
 --- !u!81 &81543399482839744
@@ -85,10 +85,17 @@ AudioListener:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1948521208355230}
   m_Enabled: 1
---- !u!124 &124445468205703478
-Behaviour:
+--- !u!114 &114896104212670958
+MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1948521208355230}
   m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d83bdec888b7544c8af0ff32e4775a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  smoothSpeed: 2
+  offset: {x: 4, y: 8.5, z: 17}

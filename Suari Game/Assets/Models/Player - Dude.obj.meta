@@ -1,17 +1,16 @@
 fileFormatVersion: 2
-guid: 8def79d4243dfec4ea0c37ede2efa7a1
+guid: 83640c28f97790a45b5def2c32c1197d
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
     100000: //RootNode
-    100002: Ter_-_GM_AREA
+    100002: Player_-_Dude
     400000: //RootNode
-    400002: Ter_-_GM_AREA
-    2100000: Ter_-_GM_AREAMat
-    2300000: Ter_-_GM_AREA
-    3300000: Ter_-_GM_AREA
-    4300000: Ter_-_GM_AREA
-    6400000: Ter_-_GM_AREA
+    400002: Player_-_Dude
+    2100000: Player_-_DudeMat
+    2300000: Player_-_Dude
+    3300000: Player_-_Dude
+    4300000: Player_-_Dude
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -45,7 +44,7 @@ ModelImporter:
     lODScreenPercentages: []
     globalScale: 1
     meshCompression: 0
-    addColliders: 1
+    addColliders: 0
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
