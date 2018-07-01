@@ -15,9 +15,12 @@ public class PlayerCharacterMove : MonoBehaviour
 
 
 	[Header("Movement")]
-	public float maxMoveSpeed = 10;                         //moving on X and Z axis, as in ground
+	[SerializeField]
+	private string groundStatus;
+	public float maxMoveSpeed = 10;				//moving on X and Z axis, as in ground
 	private Vector3 direction;
 	private Vector3 moveDirection;
+	private Vector3 lastMoveDirection;
 	private Vector3 screenMovementForward;
 	private Vector3 screenMovementRight;
 
@@ -32,11 +35,15 @@ public class PlayerCharacterMove : MonoBehaviour
 	private float curDecel;
 	private float curRotateSpeed;
 
-	public float groundAcceleration = 100f;
+	public float groundAcceleration = 50f;
 	public float groundDeceleration = 10f;
 
-	public float AirAcceleration = 20f;
-	public float airAcceleration = 2f;
+	public float airAcceleration = 20f;
+	public float airDeceleration = 2f;
+
+	private float inputMagnitude;
+	public float iceAcceleration = 100f;
+	public float iceDeceleration = 2f;
 
 	[Range(0f, 4f)]
 	public float rotateSpeed = 1f;
@@ -100,17 +107,26 @@ public class PlayerCharacterMove : MonoBehaviour
 
 		JumpProcess();
 
-		//movement and rotates in air/ground
+		//movement and rotates in air/ground (ground has 2 settings; ice and normal)
 		if (isGrounded)
 		{
-			curAccel = groundAcceleration;
-			curDecel = groundDeceleration;
-			curRotateSpeed = rotateSpeed;
+			if (groundStatus == "On Ice")
+			{
+				curAccel = iceAcceleration;
+				curDecel = iceDeceleration;
+				curRotateSpeed = rotateSpeed;
+			}
+			else
+			{
+				curAccel = groundAcceleration;
+				curDecel = groundDeceleration;
+				curRotateSpeed = rotateSpeed;
+			}
 		}
 		else
 		{
-			curAccel = AirAcceleration;
-			curDecel = airAcceleration;
+			curAccel = airAcceleration;
+			curDecel = airDeceleration;
 			curRotateSpeed = airRotateSpeed;
 		}
 
@@ -127,6 +143,7 @@ public class PlayerCharacterMove : MonoBehaviour
 		//horizontal and vertical input
 		direction = (screenMovementForward * verInput) + (screenMovementRight * horInput);
 		moveDirection = transform.position + direction;
+
 	}
 
 	//fixedUpdate syncs with physics
@@ -147,10 +164,10 @@ public class PlayerCharacterMove : MonoBehaviour
 	}
 
 	//do not allow rb to slide on slopelimit
-	void OnCollisionStay(Collision other)
+	void OnCollisionStay(Collision _other)
 	{
 		//only stop movement on slopes
-		if (other.collider.tag != "Untagged" || isGrounded == false)
+		if (_other.collider.tag != "Untagged" || isGrounded == false)
 		{
 			return;
 		}
@@ -167,15 +184,16 @@ public class PlayerCharacterMove : MonoBehaviour
 		//get distance to ground
 		float dist = GetComponent<Collider>().bounds.extents.y;
 
-		foreach (Transform gCheckObj in groundCheckers)
+		for (int i = 0; i < groundCheckers.Length; i++)
 		{
 			RaycastHit hit;
-			if (Physics.Raycast(gCheckObj.position, Vector3.down, out hit, dist + 0.05f))
+			if (Physics.Raycast(groundCheckers[i].position, Vector3.down, out hit, dist + 0.05f))
 			{
-				//Debug.DrawLine(gCheckObj.position, Vector3.down, Color.green, dist + 0.05f);
+
+				//groundcheck ray hits a collider we can walk on
 				if (hit.transform.GetComponent<Collider>().isTrigger == false)
 				{
-					//calculate angle
+					//calculate angle and if angle is higher than allowed push player
 					calculatedSlopeAngle = Vector3.Angle(hit.normal, Vector3.up);
 					
 					if (calculatedSlopeAngle > allowedSlopeAngle)
@@ -184,7 +202,15 @@ public class PlayerCharacterMove : MonoBehaviour
 						rb.AddForce(slide, ForceMode.Force);
 					}
 
+					if(hit.collider.gameObject.name == "Ice")
+					{
+						//Debug.Log("we are on ice");
+						groundStatus = "On Ice";
+						return true;
+					}
+
 					//groundcheck raycast hit
+					groundStatus = "On Ground";
 					return true;
 				}
 			}
@@ -193,6 +219,7 @@ public class PlayerCharacterMove : MonoBehaviour
 		movingObjSpeed = Vector3.zero;
 
 		//groundcheck raycast did not detect anything
+		groundStatus = "On Air";
 		return false;
 	}
 
@@ -225,11 +252,11 @@ public class PlayerCharacterMove : MonoBehaviour
 		}
 	}
 
-	public void Jump(Vector3 jumpPower)
+	public void Jump(Vector3 _jumpPower)
 	{
 		rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
 
-		rb.AddRelativeForce(jumpPower, ForceMode.Impulse);
+		rb.AddRelativeForce(_jumpPower, ForceMode.Impulse);
 
 		airPressTime = 0f;
 	}

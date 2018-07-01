@@ -11,6 +11,7 @@ ModelImporter:
     2300000: Player_-_Gril
     3300000: Player_-_Gril
     4300000: Player_-_Gril
+    6400000: Player_-_Gril
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -44,7 +45,7 @@ ModelImporter:
     lODScreenPercentages: []
     globalScale: 0.2
     meshCompression: 0
-    addColliders: 0
+    addColliders: 1
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
